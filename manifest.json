@@ -1,0 +1,48 @@
+{
+  "manifest_version": 2,
+  "name": "Github Filter Extention",
+  "version": "0.3.0",
+
+  "author": "CoderK <jeokrang@gmail.com>",
+
+  "description": "Add Filter Storage Your GitHub",
+  "icons": { "128": "./resources/img/filter_off_128.png" },
+
+  "permissions": [
+    "activeTab",
+    "tabs"
+  ],
+
+  "web_accessible_resources": [
+    "./resources/css/gfe.css"
+  ],
+
+  "content_scripts": [
+    {
+      "matches": [
+        "<all_urls>"
+      ],
+
+      "js": [
+        "./bower_components/jquery/dist/jquery.min.js",
+        "./bower_components/lodash/dist/lodash.min.js",
+        "./bower_components/rxjs/dist/rx.all.min.js",
+        "./bower_components/deep-diff/releases/deep-diff-0.3.3.min.js",
+        "./src/app.js"
+      ],
+      "css": [
+        "./resources/css/gfe.css"
+      ],
+      "run_at": "document_idle"
+    }
+  ],
+
+  "background": {
+    "scripts": ["./src/background.js"]
+  },
+
+  "browser_action": {
+    "default_title": "Github Filter Extention",
+    "default_icon": "./resources/img/filter_off_128.png"
+  }
+}

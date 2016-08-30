@@ -1,0 +1,7 @@
+.gfe--filterItem .gfe--deleteBtn {
+	float:right;margin-left:10px;fill: #ff0000;display:none;
+}
+
+.gfe--filterItem:hover .gfe--deleteBtn {
+	display: block !important;
+}

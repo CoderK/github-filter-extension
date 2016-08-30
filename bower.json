@@ -1,0 +1,24 @@
+{
+  "name": "github-filter-extention",
+  "version": "0.3.0",
+  "authors": [
+    "CoderK <jeokrang@gmail.com>"
+  ],
+  "description": "Add Filter Storage Your GitHub",
+  "main": "src/app.js",
+  "license": "MIT",
+  "homepage": "http://huns.me",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.0",
+    "lodash": "^4.14.2",
+    "rxjs": "^4.1.0",
+    "deep-diff": "^0.3.4"
+  }
+}
