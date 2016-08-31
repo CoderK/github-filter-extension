@@ -1,3 +1,12 @@
+import Rx from 'rxjs/Rx';
+import $ from 'jquery/dist/jquery.slim';
+
+import clone from 'lodash/clone';
+import template from 'lodash/template';
+import filter from 'lodash/filter';
+
+import DeepDiff from 'deep-diff';
+
 function readyElements(el, templates) {
     const $select = $(".subnav-spacer-right .select-menu-list", el);
     return {
@@ -93,7 +102,7 @@ function model(actions$, { projectKey }) {
         .merge(
             enterInput$.map(inputValue => {
                 return (state) => {
-                    const newState = _.clone(state);
+                    const newState = clone(state);
 
                     newState.push({
                         name: inputValue,
@@ -105,7 +114,7 @@ function model(actions$, { projectKey }) {
             }),
             clickDelBtn$.map(id => {
                 return (state) => {
-                    return _.filter(state, item => item.name !== id);
+                    return filter(state, item => item.name !== id);
                 };
             })
         );
@@ -162,7 +171,7 @@ function patch(diff, element, template) {
 }
 
 function prependItem(tplItem, $target, data) {
-    const itemHtml = _.template(tplItem)(data);
+    const itemHtml = template(tplItem)(data);
     $target.before(itemHtml);
 }
 

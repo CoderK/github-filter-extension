@@ -1,11 +1,10 @@
 {
   "manifest_version": 2,
-  "name": "Github Filter Extention",
+  "name": "Github-Filter-Extention",
   "version": "0.3.0",
 
   "author": "CoderK <jeokrang@gmail.com>",
-
-  "description": "Add Filter Storage Your GitHub",
+  "description": "This extension add some feature to save and delete your custom filters in issues and Pull request page on Github.",
   "icons": { "128": "./resources/img/filter_off_128.png" },
 
   "permissions": [
@@ -24,11 +23,7 @@
       ],
 
       "js": [
-        "./bower_components/jquery/dist/jquery.min.js",
-        "./bower_components/lodash/dist/lodash.min.js",
-        "./bower_components/rxjs/dist/rx.all.min.js",
-        "./bower_components/deep-diff/releases/deep-diff-0.3.3.min.js",
-        "./src/app.js"
+        "./dist/bundle.js"
       ],
       "css": [
         "./resources/css/gfe.css"
@@ -44,5 +39,7 @@
   "browser_action": {
     "default_title": "Github Filter Extention",
     "default_icon": "./resources/img/filter_off_128.png"
-  }
+  },
+
+  "homepage_url": "https://github.com/CoderK/github-filter-extension"
 }

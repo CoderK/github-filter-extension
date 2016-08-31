@@ -1,31 +1,27 @@
 Add Filter Storage Your GitHub!
 ==============
 
-This extension add features to save and delete your filters in issues and Pull request page.
+This extension add some feature to save and delete your custom filters in issues and Pull request page on Github.
 
 [![스크린샷 2016-08-30 오후 11.54.58.png](https://s22.postimg.org/8ts6mdo41/2016_08_30_11_54_58.png)](https://postimg.org/image/v5pzfrn7x/)
-
-## Install
-
-Install this from [Chrome Web Store](https://chrome.google.com/webstore/detail/bbhcplmmihjdibppeeajmombokhcfakk/publish-delayed)
 
 ## Developing
 
 #### Set Up
 
-First, install bower if needed.
-```
-npm install -g bower
-```
-
-Second, clone this repository.
+First, clone this repository.
 ``` 
 git clone https://github.com/CoderK/github-filter-extension.git
 ```
 
-Third, install dependencies in your local directory.
+Second, install npm dependencies.
 ```
-cd github-filter-extension && bower install
+cd github-filter-extension && npm install
+```
+
+Third, bundle source code, and then bundle.js will be created at ```./dist``` 
+```
+npm run build
 ```
 
 #### Add Extension To Chrome
