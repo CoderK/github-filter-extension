@@ -1,7 +1,7 @@
 {
   "manifest_version": 2,
   "name": "Github Filter Extension",
-  "version": "0.3.2",
+  "version": "0.4.0",
 
   "author": "CoderK <jeokrang@gmail.com>",
   "description": "This extension add some feature to save and delete your custom filters in issues and Pull request page on Github.",

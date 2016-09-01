@@ -3,6 +3,10 @@ Add Filter Storage Your GitHub!
 
 This extension add some feature to save and delete your custom filters in issues and Pull request page on Github.
 
+## Install
+
+Install extension from [Chrome Web Store](https://chrome.google.com/webstore/detail/github-filter-extension/bbhcplmmihjdibppeeajmombokhcfakk?hl=ko)
+
 [![스크린샷 2016-08-30 오후 11.54.58.png](https://s22.postimg.org/8ts6mdo41/2016_08_30_11_54_58.png)](https://postimg.org/image/v5pzfrn7x/)
 
 ## Developing

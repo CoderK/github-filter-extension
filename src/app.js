@@ -30,9 +30,9 @@ function readyTemplates() {
                             <path d="M7.48 8l3.75 3.75-1.48 1.48-3.75-3.75-3.75 3.75-1.48-1.48 3.75-3.75L0.77 4.25l1.48-1.48 3.75 3.75 3.75-3.75 1.48 1.48-3.75 3.75z"></path>
                           </svg>
                         </a>`,
-        tplInput: `<a id='gfe--filterInput' class="select-menu-item" target="_blank">
+        tplInput: `<a id='__filterInputWrap' class="select-menu-item" target="_blank">
                             <div class="select-menu-item-text">
-                                <input type='text' placeholder="Enter name to save" maxlength="12">
+                                <input class='gfe--input' type='text' placeholder="Enter name to save" maxlength="15">
                             </div>
                           </a>`
     }
@@ -189,11 +189,11 @@ function main(props) {
 }
 
 function run(main, el) {
-    if (isOnInvalidPath(location.pathname)) {
+    if (isOnInvalidPath()) {
         return;
     }
 
-    if (document.getElementById('gfe--filterInput')) {
+    if (document.getElementById('__filterInputWrap')) {
         return;
     }
 
@@ -209,8 +209,14 @@ function injectInputform($select, { tplInput }) {
     return $input;
 }
 
-function isOnInvalidPath(pathname) {
-    return /(.*)\/(.*)\/(issues|pulls)/.test(pathname) === false;
+function isOnInvalidPath() {
+    const pathname = location.pathname;
+    const firstLinkHref = document.querySelector('link').href;
+
+    const isNotGithubPage = /^(https:\/\/).*\/assets\/frameworks\-.*/.test(firstLinkHref) === false;
+    const hasNoFilterOnPage = /(.*)\/(.*)\/(issues|pulls)/.test(pathname) === false;
+
+    return isNotGithubPage || hasNoFilterOnPage;
 }
 
 $(document).ready(() => {

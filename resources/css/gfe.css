@@ -1,3 +1,7 @@
+.gfe--input {
+	width: 90%;
+}
+
 .gfe--filterItem .gfe--deleteBtn {
 	float:right;margin-right:15px;fill: #ff0000;display:none;
 }
