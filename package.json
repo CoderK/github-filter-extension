@@ -17,7 +17,7 @@
   },
   "scripts": {
     "deploy": "webpack --optimize-minimize --progress --env production",
-    "build": "webpack --progress --watch"
+    "start": "webpack --progress --watch"
   },
   "repository": {
     "type": "git",

@@ -2,6 +2,7 @@ import $ from 'jquery/dist/jquery.slim';
 import clone from 'lodash/clone';
 import template from 'lodash/template';
 import filter from 'lodash/filter';
+import findIndex from 'lodash/findIndex';
 import DeepDiff from 'deep-diff';
 
 const Rx = require('rxjs/Rx');
@@ -49,6 +50,7 @@ function createProps(el) {
 function intent({ element }) {
     const { $input, $select } = element;
 
+    const error$ = new Rx.Subject();
     const enterInput$ = Rx.Observable
         .fromEvent($input, 'keypress')
         .filter(e => e.key === 'Enter')
@@ -56,7 +58,7 @@ function intent({ element }) {
             const isFilterInput = !!location.search;
 
             if (isFilterInput === false) {
-                alert('Oops, you did not set a filter to save.');
+                error$.next('Oops, you did not set a filter to save.');
             }
 
             return isFilterInput;
@@ -71,7 +73,6 @@ function intent({ element }) {
             e.target.value = '';
             return value;
         });
-
     const clickDelBtn$ = Rx.Observable
         .fromEvent($select, 'click')
         .filter(({ target }) => {
@@ -89,25 +90,26 @@ function intent({ element }) {
 
     return {
         enterInput$,
-        clickDelBtn$
+        clickDelBtn$,
+        error$
     }
 }
 
 function model(actions$, { projectKey }) {
     const initState = JSON.parse(localStorage.getItem(projectKey)) || [];
-    const { enterInput$, clickDelBtn$ } = actions$;
+    const { enterInput$, clickDelBtn$, error$ } = actions$;
 
     const reducers$ = Rx.Observable
         .merge(
             enterInput$.map(inputValue => {
                 return (state) => {
+                    if (findIndex(state, item => inputValue === item.name) > -1) {
+                        error$.next('Oops, Already exists!!');
+                        return state;
+                    }
+
                     const newState = clone(state);
-
-                    newState.push({
-                        name: inputValue,
-                        path: location.href
-                    });
-
+                    newState.push({ name: inputValue, path: location.href });
                     return newState;
                 };
             }),
@@ -175,9 +177,11 @@ function prependItem(tplItem, $target, data) {
 }
 
 function main(props) {
-    const actions$ = intent(props);
-    const state$ = model(actions$, props);
+    const actions = intent(props);
+    const state$ = model(actions, props);
     const dom$ = view(state$, props);
+
+    actions.error$.subscribe(msg => alert(msg));
 
     return {
         DOM: dom$
