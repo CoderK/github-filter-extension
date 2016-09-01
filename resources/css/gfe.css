@@ -1,5 +1,5 @@
 .gfe--filterItem .gfe--deleteBtn {
-	float:right;margin-left:10px;fill: #ff0000;display:none;
+	float:right;margin-right:15px;fill: #ff0000;display:none;
 }
 
 .gfe--filterItem:hover .gfe--deleteBtn {
