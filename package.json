@@ -1,6 +1,6 @@
 {
   "name": "github-filter-extension",
-  "version": "0.3.2",
+  "version": "0.3.3",
   "description": "Add Local Filter Storage Your GitHub",
   "main": "index.js",
   "dependencies": {
