@@ -1,11 +1,10 @@
-import Rx from 'rxjs/Rx';
 import $ from 'jquery/dist/jquery.slim';
-
 import clone from 'lodash/clone';
 import template from 'lodash/template';
 import filter from 'lodash/filter';
-
 import DeepDiff from 'deep-diff';
+
+const Rx = require('rxjs/Rx');
 
 function readyElements(el, templates) {
     const $select = $(".subnav-spacer-right .select-menu-list", el);
