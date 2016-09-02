@@ -16,7 +16,7 @@
     "webpack": "^1.13.2"
   },
   "scripts": {
-    "deploy": "webpack --optimize-minimize --progress --env production",
+    "build": "webpack -p --progress --env production",
     "start": "webpack --progress --watch"
   },
   "repository": {
