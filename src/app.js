@@ -4,8 +4,19 @@ import template from 'lodash/template';
 import filter from 'lodash/filter';
 import findIndex from 'lodash/findIndex';
 import DeepDiff from 'deep-diff';
-
-const Rx = require('rxjs/Rx');
+import { Subject } from 'rxjs/Subject';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/observable/fromEvent';
+import 'rxjs/add/observable/of';
+import 'rxjs/add/observable/merge';
+import 'rxjs/add/operator/filter';
+import 'rxjs/add/operator/do';
+import 'rxjs/add/operator/startWith';
+import 'rxjs/add/operator/pairwise';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/merge';
+import 'rxjs/add/operator/scan';
+import 'rxjs/add/operator/mergeMap';
 
 function readyElements(el, templates) {
     const $select = $(".subnav-spacer-right .select-menu-list", el);
@@ -50,8 +61,8 @@ function createProps(el) {
 function intent({ element }) {
     const { $input, $select } = element;
 
-    const error$ = new Rx.Subject();
-    const enterInput$ = Rx.Observable
+    const error$ = new Subject();
+    const enterInput$ = Observable
         .fromEvent($input, 'keypress')
         .filter(e => e.key === 'Enter')
         .filter(() => {
@@ -73,7 +84,7 @@ function intent({ element }) {
             e.target.value = '';
             return value;
         });
-    const clickDelBtn$ = Rx.Observable
+    const clickDelBtn$ = Observable
         .fromEvent($select, 'click')
         .filter(({ target }) => {
             return target.classList.contains('gfe--deleteBtn')
@@ -99,7 +110,7 @@ function model(actions$, { projectKey }) {
     const initState = JSON.parse(localStorage.getItem(projectKey)) || [];
     const { enterInput$, clickDelBtn$, error$ } = actions$;
 
-    const reducers$ = Rx.Observable
+    const reducers$ = Observable
         .merge(
             enterInput$.map(inputValue => {
                 return (state) => {
@@ -120,7 +131,7 @@ function model(actions$, { projectKey }) {
             })
         );
 
-    return Rx.Observable
+    return Observable
         .of(initState)
         .merge(reducers$)
         .scan((state, reducer) => reducer(state))
