@@ -1,9 +1,10 @@
-import $ from 'jquery/dist/jquery.slim';
 import clone from 'lodash/clone';
 import template from 'lodash/template';
 import filter from 'lodash/filter';
 import findIndex from 'lodash/findIndex';
+
 import DeepDiff from 'deep-diff';
+
 import { Subject } from 'rxjs/Subject';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/fromEvent';
@@ -19,10 +20,10 @@ import 'rxjs/add/operator/scan';
 import 'rxjs/add/operator/mergeMap';
 
 function readyElements(el, templates) {
-    const $select = $(".subnav-spacer-right .select-menu-list", el);
+    const selectElement = el.querySelector('.subnav-spacer-right .select-menu-list');
     return {
-        $input: injectInputform($select, templates),
-        $select
+        inputElement: injectInputform(selectElement, templates),
+        selectElement
     }
 }
 
@@ -59,11 +60,11 @@ function createProps(el) {
 }
 
 function intent({ element }) {
-    const { $input, $select } = element;
+    const { inputElement, selectElement } = element;
 
     const error$ = new Subject();
     const enterInput$ = Observable
-        .fromEvent($input, 'keypress')
+        .fromEvent(inputElement, 'keypress')
         .filter(e => e.key === 'Enter')
         .filter(() => {
             const isFilterInput = !!location.search;
@@ -74,7 +75,7 @@ function intent({ element }) {
 
             return isFilterInput;
         })
-        .filter(e => $.trim(e.target.value) !== '')
+        .filter(e => e.target.value.trim() !== '')
         .do(e => {
             e.preventDefault();
             e.stopPropagation();
@@ -85,7 +86,7 @@ function intent({ element }) {
             return value;
         });
     const clickDelBtn$ = Observable
-        .fromEvent($select, 'click')
+        .fromEvent(selectElement, 'click')
         .filter(({ target }) => {
             return target.classList.contains('gfe--deleteBtn')
                 || target.parentNode.classList.contains('gfe--deleteBtn');
@@ -151,28 +152,29 @@ function view(state$, { element, template }) {
 
 function updateItem(path, rhs) {
     const [ idx, key ] = path;
-    const $target = $('.gfe--filterItem').eq(idx);
+    const targetElement = document.getElementsByClassName('gfe--filterItem')[idx];
 
     if (key === 'name') {
-        $target.find('.select-menu-item-text').text(rhs);
-        $target.find('svg').attr('data-name', rhs);
-        $target.attr('id', rhs);
+        targetElement.querySelector('.select-menu-item-text').textContent = rhs;
+        targetElement.querySelector('svg').setAttribute('data-name', rhs);
+        targetElement.id = rhs;
     } else if (key === 'path') {
-        $target.attr('href', rhs);
+        targetElement.href = rhs;
     }
 }
 
 function removeItem(name) {
-    $(`#${name}`).remove();
+    const targetNode = document.getElementById(name);
+    targetNode.parentNode.removeChild(targetNode);
 }
 
 function patch(diff, element, template) {
     const { kind, item, rhs, lhs, path } = diff;
-    const { $input } = element;
+    const { inputElement } = element;
     const { tplItem } = template;
 
     if(kind === 'N') {
-        prependItem(tplItem, $input, rhs);
+        prependItem(tplItem, inputElement, rhs);
     } else if(kind === 'A') {
         patch(item, element, template);
     } else if(kind === 'E') {
@@ -182,9 +184,9 @@ function patch(diff, element, template) {
     }
 }
 
-function prependItem(tplItem, $target, data) {
+function prependItem(tplItem, targetElement, data) {
     const itemHtml = template(tplItem)(data);
-    $target.before(itemHtml);
+    targetElement.insertAdjacentHTML('beforebegin', itemHtml);
 }
 
 function main(props) {
@@ -214,10 +216,13 @@ function run(main, el) {
     DOM.subscribe();
 }
 
-function injectInputform($select, { tplInput }) {
-    const $input = $(tplInput);
-    $select.children().last().before($input);
-    return $input;
+function injectInputform(selectNode, { tplInput }) {
+    const childNods = selectNode.children;
+    const lastIdx = childNods.length - 1;
+
+    childNods[lastIdx].insertAdjacentHTML('beforebegin', tplInput);
+
+    return selectNode.children[lastIdx];
 }
 
 function isOnInvalidPath() {
@@ -230,7 +235,13 @@ function isOnInvalidPath() {
     return isNotGithubPage || hasNoFilterOnPage;
 }
 
-$(document).ready(() => {
+;(function ready(fn) {
+    if (document.readyState != 'loading'){
+        fn();
+    } else {
+        document.addEventListener('DOMContentLoaded', fn);
+    }
+})(() => {
     const runner = run.bind(null, main, document);
     chrome.extension.onMessage.addListener(runner);
     runner.call(this);
