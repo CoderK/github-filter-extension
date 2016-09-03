@@ -14,8 +14,18 @@ function isAlreadyInitialized() {
     return document.getElementById('__filterInputWrap') !== null;
 }
 
+function isDomNotReady() {
+    return document.querySelector('.subnav-spacer-right .select-menu-list') === null;
+}
+
+function shouldBlockInitialize() {
+    return isOnInvalidPath()
+    || isAlreadyInitialized()
+    || isDomNotReady();
+}
+
 function run(main, el) {
-    if (isOnInvalidPath() || isAlreadyInitialized()) {
+    if (shouldBlockInitialize()) {
         return;
     }
 
