@@ -31,4 +31,4 @@ npm run build
 #### Add Extension To Chrome
 
 1. Enable [Chrome Extensions Developer Mode](https://developer.chrome.com/extensions/faq#faq-dev-01) in Chrome.
-2. In Settings > Extensions click "Load unpacked extension" and select the `chrome/` subfolder of this repository.
+2. In Settings > Extensions click "Load unpacked extension" and select the folder of this repository.
