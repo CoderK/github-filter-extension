@@ -1,4 +1,3 @@
-import template from 'lodash/template';
 import DeepDiff from 'deep-diff';
 
 import 'rxjs/add/operator/do';
@@ -41,7 +40,7 @@ function patch(diff, element, template) {
 }
 
 function prependItem(tplItem, targetElement, data) {
-    const itemHtml = template(tplItem)(data);
+    const itemHtml = tplItem(data);
     targetElement.insertAdjacentHTML('beforebegin', itemHtml);
 }
 

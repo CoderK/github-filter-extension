@@ -22,6 +22,10 @@ module.exports = {
                 query: {
                     presets: ['es2015']
                 }
+            },
+            {
+                test: /(\.tpl|\.html)$/,
+                loader: 'lodash-template-webpack',
             }
         ]
     },
