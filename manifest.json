@@ -12,10 +12,6 @@
     "tabs"
   ],
 
-  "web_accessible_resources": [
-    "./resources/css/gfe.css"
-  ],
-
   "content_scripts": [
     {
       "matches": [
@@ -24,9 +20,6 @@
 
       "js": [
         "./dist/bundle.js"
-      ],
-      "css": [
-        "./resources/css/gfe.css"
       ],
       "run_at": "document_idle"
     }

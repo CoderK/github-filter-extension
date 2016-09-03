@@ -15,6 +15,7 @@ module.exports = {
     devtool: env === 'production' ? false : 'inline-source-map',
     module: {
         loaders: [
+            { test: /\.css$/, loader: "style-loader!css-loader" },
             {
                 test: /\.js$/,
                 loader: 'babel',
