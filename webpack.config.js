@@ -7,10 +7,13 @@ let env = null;
 if (envIndex > -1) { env = process.argv[envIndex + 1]; }
 
 module.exports = {
-    entry: './src/app.js',
+    entry: {
+        app: ['./src/app.js'],
+        background: ['./src/background.js']
+    },
     output: {
         path: __dirname,
-        filename: `dist/bundle.js`
+        filename: `dist/[name].min.js`
     },
     devtool: env === 'production' ? false : 'inline-source-map',
     module: {
