@@ -1,9 +1,14 @@
 import { main, createProps } from './filter/index';
 
 function isOnInvalidPath() {
-    const pathname = location.pathname;
-    const firstLinkHref = document.querySelector('link').href;
+    const firstLinkElement = document.querySelector('link');
 
+    if (!firstLinkElement) {
+        return true;
+    }
+
+    const pathname = location.pathname;
+    const firstLinkHref = firstLinkElement.href;
     const isNotGithubPage = /^(https:\/\/).*\/assets\/frameworks\-.*/.test(firstLinkHref) === false;
     const hasNoFilterOnPage = /(.*)\/(.*)\/(issues|pulls)/.test(pathname) === false;
 
